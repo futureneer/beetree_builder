@@ -42,14 +42,6 @@ class Builder(Plugin):
         # Add custom options
         self._widget.node_type_list.addItems(['test1','test2'])
 
-        # Get list of available modules
-        import beetree
-        l = []
-        for name, obj in inspect.getmembers(beetree):
-            if inspect.isclass(obj):
-                l.append(obj)
-                print obj
-
     def shutdown_plugin(self):
         # TODO unregister all publishers here
         pass

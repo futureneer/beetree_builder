@@ -16,17 +16,6 @@ class BTWidget(QWidget):
     self.app_ = app
     self.setMinimumWidth(700)
     self.setMinimumHeight(500)
-
-    # get saved settings
-    # if rospy.has_param('test_path'):
-    #   setting_path = rospy.get_param('test_path')
-    #   self.settings = QSettings(setting_path, QSettings.IniFormat)
-    # else:
-    #   rospy.logerr('Programmer: No settings found, using default')
-    #   self.settings = QSettings('/home/kel/ros_workspace/adjutant/adjutant_programmer/settings.ini', QSettings.IniFormat)
-    # self.settings.setFallbacksEnabled(False) 
-    # self.resize( self.settings.value('size', QSize(270, 225), type=QSize) )
-    # self.move(self.settings.value('pos', QPoint(50, 50), type=QPoint))
     
     # Setup layout
     self.layout_ = QGridLayout()
@@ -40,20 +29,6 @@ class BTWidget(QWidget):
     self.ok_timer_ = QTimer(self)
     self.connect(self.ok_timer_, QtCore.SIGNAL("timeout()"), self.check_ok)
     self.ok_timer_.start(1000)
-
-    # self.root = NodeRoot()
-    # sec1 = NodeSequence(self.root,'sequence_1')
-    # sec3 = NodeSequence(self.root,'sequence_3')
-    # sec4 = NodeSequence(self.root,'sequence_4')
-    # a1 = NodeAction(sec1,'a1')
-    # a2 = NodeAction(sec1,'a2')
-    # sec2 = NodeSequence(sec1,'sequence_2')
-    # sec5 = NodeSequence(sec1,'sequence_5')
-    # sec6 = NodeSequence(sec1,'sequence_6')
-    # sec7 = NodeSequence(sec1,'sequence_7')
-    # a4 = NodeAction(sec2,'a4')
-    # a5 = NodeAction(sec2,'a5')
-    # a3 = NodeAction(sec1,'a3')
 
     self.root = NodeRoot('root','start')
     para_look_and_grab = NodeParallel(self.root,'para_look_and_grab','detect_obj_move_to_bin')
