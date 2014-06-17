@@ -1,0 +1,16 @@
+<library path="src">
+  <class name="Builder" type="beetree_builder.builder.Builder" base_class_type="rqt_gui_py::Plugin">
+    <description>
+      A GUI for building beetree behavior trees
+    </description>
+    <qtgui>
+      <group>
+        <label>Visualization</label>
+      </group>
+      <label>BeetreeBuilder</label>
+      <icon type="theme">system-help</icon>
+      <statustip>Build Beetree Behavior Trees</statustip>
+    </qtgui>
+  </class>
+</library>
+
