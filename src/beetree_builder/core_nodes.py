@@ -39,7 +39,51 @@ class NodeRootGUI(QWidget):
         # self.name_field.interface().connect(self.set_name)
         self.layout_.addWidget(self.name_field)
 
-    def generate(self):
+    def generate(self,parent = None):
         return beetree.NodeRoot('root','root')
+
+
+class NodeParallelGUI(QWidget):
+    def __init__(self):
+        super(NodeParallelGUI,self).__init__()
+        ### Setup Widget Structure ###
+        self.layout_ = QVBoxLayout()
+        self.setLayout(self.layout_)
+        #####################
+        self.name_field = NamedField('Name','')
+        self.name_field.interface().connect(self.set_name)
+        self.name = ''
+        self.layout_.addWidget(self.name_field)
+
+    def set_name(self,t):
+        self.name = str(t)
+
+    def generate(self,parent=None):
+        if self.name != '':
+            return beetree.NodeParallel(parent,self.name,'')
+        else:
+            return 'ERROR: node name not defined'
+
+
+class NodeSequenceGUI(QWidget):
+    def __init__(self):
+        super(NodeSequenceGUI,self).__init__()
+        ### Setup Widget Structure ###
+        self.layout_ = QVBoxLayout()
+        self.setLayout(self.layout_)
+        #####################
+        self.name_field = NamedField('Name','')
+        self.name_field.interface().connect(self.set_name)
+        self.name = ''
+        self.layout_.addWidget(self.name_field)
+
+    def set_name(self,t):
+        self.name = str(t)
+
+    def generate(self,parent=None):
+        if self.name != '':
+            return beetree.NodeSequence(parent,self.name,'')
+        else:
+            return 'ERROR: node name not defined'
 
 

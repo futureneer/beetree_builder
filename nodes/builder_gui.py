@@ -49,6 +49,7 @@ class BeetreeBuilder(QWidget):
     self.current_tree = {}
     self.root_node = None
     self.gui_selected_node = None
+    self.selected_node_field.setText('NONE')
 
     self.set_up_gui()
 
@@ -71,8 +72,12 @@ class BeetreeBuilder(QWidget):
     # self.dot_widget.set_dotcode(self.root.generate_dot())
     # print 'Connecting'
 
-    self.connect(self.dot_widget,SIGNAL("clicked"), self.node_clicked_cb)
+    self.connect(self.dot_widget,SIGNAL("clicked"), self.node_gui_selected_cb)
 
+  # TODO
+  # check for unique name when adding nodes
+  # recursively turn on or off labels on logical nodes
+  # add node as brother - requires change to beetree
 
   def set_up_gui(self):
     self.node_ready = False
@@ -86,25 +91,58 @@ class BeetreeBuilder(QWidget):
 
     self.node_type_list.addItems(self.node_names)
     self.node_type_list.activated[str].connect(self.node_type_selected_cb)
-    self.add_node_btn.clicked.connect(self.add_cb)
+    self.add_node_root_btn.clicked.connect(self.add_root_cb)
+    self.add_node_child_btn.clicked.connect(self.add_child_cb)
+    self.add_node_sibling_btn.clicked.connect(self.add_sibling_cb)
     self.delete_node_btn.clicked.connect(self.delete_cb)
+    self.add_node_child_btn.hide()
+    self.add_node_sibling_btn.hide()
+    self.delete_node_btn.hide()
     #85DE00
 
-  def add_cb(self):
-    print 'adding node of type ' + self.selected_node_type
+  def add_root_cb(self):
+    print 'adding root node of type ' + self.selected_node_type
     if self.selected_node_type != None:
       N = self.current_node_generator.generate()
-      if self.root_node == None:
-        self.current_tree[self.current_node_generator.name] = N 
-        self.root_node = N
+      if type(N) == str:
+        # There was an error
+        rospy.logerr(str(N))
       else:
         self.current_tree[self.current_node_generator.name] = N 
-      print 'generating tree'
-      self.generate_tree()
+        self.root_node = N
+        self.add_node_child_btn.show()
+        self.add_node_root_btn.hide()
+        self.generate_tree()
+        # Reset the selected node
+        self.gui_selected_node = None
+        self.selected_node_field.setText('NONE')
+        self.selected_node_field.setStyleSheet('background-color:#FFB85C')
+
+  def add_child_cb(self):
+    print 'adding child node of type ' + self.selected_node_type
+    if self.selected_node_type != None:
+        if self.gui_selected_node == None:
+          rospy.logerr('There is no parent node selected')
+        else:
+          N = self.current_node_generator.generate(self.current_tree[self.gui_selected_node])
+          if type(N) == str:
+            # There was an error
+            rospy.logerr(str(N))
+          else:
+              self.current_tree[self.current_node_generator.name] = N 
+              self.generate_tree()
+              self.add_node_sibling_btn.show()
+              # Reset the selected node
+              self.gui_selected_node = None
+              self.selected_node_field.setText('NONE')
+              self.selected_node_field.setStyleSheet('background-color:#FFB85C')
+
+  def add_sibling_cb(self):
+    rospy.logerr('Not implemented yet')
     pass
 
   def generate_tree(self):
-    print self.root_node.generate_dot()
+    # print self.root_node.generate_dot()
     self.dot_widget.set_dotcode(self.root_node.generate_dot())
 
   def delete_cb(self):
@@ -125,16 +163,23 @@ class BeetreeBuilder(QWidget):
     # self.settings.setValue('pos', self.pos())
     event.accept()
 
-  def node_clicked_cb(self,event):
-    print 'You clicked node [' + event +']'
-    if event in self.current_tree:
-      print '[' + event + '] found in current tree'
-      self.gui_selected_node = event
-
+  def node_gui_selected_cb(self,event):
+    if event == 'none':
+      self.gui_selected_node = None
+      self.selected_node_field.setText('NONE')
+      self.selected_node_field.setStyleSheet('background-color:#FFB85C')
+    else:
+      if event in self.current_tree:
+        # print '[' + event + '] found in current tree'
+        self.gui_selected_node = event
+        self.selected_node_field.setText(str(event).upper())
+        self.selected_node_field.setStyleSheet('background-color:#B2E376')
+    
   def clean_up(self):
     pass
 
   def check_ok(self):
+    self.update()
     if rospy.is_shutdown():
       self.clean_up()
       self.close()
@@ -159,7 +204,10 @@ if __name__ == '__main__':
 
 
 
-
+  # if self.root_node == None:
+  #   self.add_node_child_btn.setText('Add Root Node')
+  # else:
+  #   self.add_node_child_btn.setText('Add Child Node')
 
 
 
