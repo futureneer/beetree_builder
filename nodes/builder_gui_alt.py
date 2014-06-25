@@ -224,7 +224,7 @@ class BeetreeBuilder(QWidget):
       self.close()
       self.app_.exit()
 
-# MAIN #########################################################################
+# MAIN #######################################################
 if __name__ == '__main__':
   rospy.init_node('beetree',anonymous=True)
   app = QApplication(sys.argv)
@@ -232,21 +232,6 @@ if __name__ == '__main__':
   # Running
   app.exec_()
   # Done
-
-        
-
-
-
-
-
-
-
-
-
-  # if self.root_node == None:
-  #   self.add_node_child_btn.setText('Add Root Node')
-  # else:
-  #   self.add_node_child_btn.setText('Add Child Node')
 
 
 
