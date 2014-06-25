@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import roslib; roslib.load_manifest('beetree')
+import roslib; roslib.load_manifest('beetree_builder')
 import rospy 
 from std_msgs.msg import *
 import beetree
@@ -83,6 +83,102 @@ class NodeSequenceGUI(QWidget):
     def generate(self,parent=None):
         if self.name != '':
             return beetree.NodeSequence(parent,self.name,'')
+        else:
+            return 'ERROR: node name not defined'
+
+class NodeActionSampleGUI(QWidget):
+    def __init__(self):
+        super(NodeActionSampleGUI,self).__init__()
+        ### Setup Widget Structure ###
+        self.layout_ = QVBoxLayout()
+        self.setLayout(self.layout_)
+        #####################
+        self.name_field = NamedField('Name','')
+        self.name_field.interface().connect(self.set_name)
+        self.name = ''
+        self.layout_.addWidget(self.name_field)
+
+        self.label_field = NamedField('Label','')
+        self.label_field.interface().connect(self.set_label)
+        self.label = ''
+        self.layout_.addWidget(self.label_field)
+
+    def set_name(self,t):
+        self.name = str(t)
+
+    def set_label(self,t):
+        self.label = str(t)
+
+    def generate(self,parent=None):
+        if self.name != '':
+            if self.label !='':
+                return beetree.NodeAction(parent,self.name,self.label)
+            else:
+                return 'ERROR: node label not defined'
+        else:
+            return 'ERROR: node name not defined'
+
+class NodeServiceSampleGUI(QWidget):
+    def __init__(self):
+        super(NodeServiceSampleGUI,self).__init__()
+        ### Setup Widget Structure ###
+        self.layout_ = QVBoxLayout()
+        self.setLayout(self.layout_)
+        #####################
+        self.name_field = NamedField('Name','')
+        self.name_field.interface().connect(self.set_name)
+        self.name = ''
+        self.layout_.addWidget(self.name_field)
+
+        self.label_field = NamedField('Label','')
+        self.label_field.interface().connect(self.set_label)
+        self.label = ''
+        self.layout_.addWidget(self.label_field)
+
+    def set_name(self,t):
+        self.name = str(t)
+
+    def set_label(self,t):
+        self.label = str(t)
+
+    def generate(self,parent=None):
+        if self.name != '':
+            if self.label !='':
+                return beetree.NodeAction(parent,self.name,self.label)
+            else:
+                return 'ERROR: node label not defined'
+        else:
+            return 'ERROR: node name not defined'
+
+class NodeConditionSampleGUI(QWidget):
+    def __init__(self):
+        super(NodeConditionSampleGUI,self).__init__()
+        ### Setup Widget Structure ###
+        self.layout_ = QVBoxLayout()
+        self.setLayout(self.layout_)
+        #####################
+        self.name_field = NamedField('Name','')
+        self.name_field.interface().connect(self.set_name)
+        self.name = ''
+        self.layout_.addWidget(self.name_field)
+
+        self.label_field = NamedField('Label','')
+        self.label_field.interface().connect(self.set_label)
+        self.label = ''
+        self.layout_.addWidget(self.label_field)
+
+    def set_name(self,t):
+        self.name = str(t)
+
+    def set_label(self,t):
+        self.label = str(t)
+
+    def generate(self,parent=None):
+        if self.name != '':
+            if self.label !='':
+                return beetree.NodeParamCondition(parent,self.name,self.label)
+            else:
+                return 'ERROR: node label not defined'
         else:
             return 'ERROR: node name not defined'
 

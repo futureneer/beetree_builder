@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="beetree_builder" type="beetree_gui_alt.py" name="beetree_builder"/>
+    <param name="publish_frequency" type="double" value="10.0" />
+</launch>

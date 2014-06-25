@@ -8,13 +8,23 @@
   <license>BSD</license>
 
   <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>beetree</build_depend>
   <run_depend>xdot</run_depend>
   <run_depend>rospy</run_depend>
-  <run_depend>rqt_gui</run_depend>
+  <run_depend>rqt_gui</run_depend>e
   <run_depend>rqt_gui_py</run_depend>
   <run_depend>beetree</run_depend>
 
   <export>
     <rqt_gui plugin="${prefix}/plugin.xml"/>
+      <beetree_builder plugin="beetree_builder.NodeRootGUI" type="LOGIC" description="Root logic node for beetree" name="ROOT"/>
+      <beetree_builder plugin="beetree_builder.NodeParallelGUI" type="LOGIC" description="Parallel logic node for beetree" name="PARALLEL"/>
+      <beetree_builder plugin="beetree_builder.NodeSequenceGUI" type="LOGIC" description="Sequence logic node for beetree" name="SEQUENCE"/>
+
+      <beetree_builder plugin="beetree_builder.NodeActionSampleGUI" type="ACTION" description="ROS Action Call dummy node" name="ACTION_DUMMY"/>
+      <beetree_builder plugin="beetree_builder.NodeServiceSampleGUI" type="ACTION" description="ROS Service Call dummy node" name="SERVICE_DUMMY"/>
+
+      <beetree_builder plugin="beetree_builder.NodeConditionSampleGUI" type="CONDITION" description="Condition dummy node" name="CONDITION_DUMMY"/>
   </export>
+
 </package>
